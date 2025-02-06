@@ -1,10 +1,10 @@
 ```asm
-@var1
-D = M
-@var2
-D = D + M
-@var3
-M = D
+        @var1
+        D = M
+        @var2
+        D = D + M
+        @var3
+        M = D
 ```
 
 Este codigo toma los datos de var1 y var2, los suma, y los almacena en var3

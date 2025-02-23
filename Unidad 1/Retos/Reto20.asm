@@ -1,10 +1,12 @@
-(si d se presiona)
-    @d 
+// (si d se presiona)
+    @24576
     D=M
-    @d 
-    D;JEQ
+    @100
+    D=D-A
     @DRAW
-(draw)
+    D;JEQ
+    @24576
+// (draw)
 	// put bitmap location value in R12
 	// put code return address in R13
 	@SCREEN
@@ -143,3 +145,6 @@
 	@R13
 	A=M
 	D;JMP
+(end)
+    @END
+    0;JMP

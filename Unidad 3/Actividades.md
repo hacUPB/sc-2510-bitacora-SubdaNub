@@ -86,3 +86,12 @@ void ofApp::mousePressed(int x, int y, int button) {
     particleColor = ofColor(0); // ahora precionar el mouse fija el color de los circulos a negro
 }
 ```
+# Actividad 5
+#### ¿Cuál es la definición de un puntero?
+Es una variable que tiene la dirección de memoria de otra variable, se usa como un acceso indirecto a la variable de referencia.
+
+#### ¿Dónde está el puntero?
+ubicado en ofApp.h , el objeto declarado "Sphere* selectedSphere"
+
+#### ¿Cómo se inicializa el puntero?
+en el metodo "ofApp:setup" 

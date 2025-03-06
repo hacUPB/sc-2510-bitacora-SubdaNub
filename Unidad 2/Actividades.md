@@ -1,13 +1,72 @@
-// (Key)
+# Actividad 1
+#### ¿Qué es la entrada-salida mapeada a memoria?
+Son espacios de memoria dedicados a recibir datos de perifericos donde el Hardware y el computador intercambian instrucciones.
+
+#### ¿Cómo se implementa en la plataforma Hack?
+El computador Hack tiene dos perifericos designados para el teclado y una pantalla, cada tecla tiene un numero asociado y cuando se presiona, envia su respectivo numero al espacio de memoria designado al teclado (RAM 24576)
+
+#### Inventa un programa que haga uso de la entrada-salida mapeada a memoria.
+```asm
+(Key)
     @24576
-    D=M
-    @100
+    D=M     // lee el teclado
+    @97
     D=D-A
-    @DRAW
+    @White  //si "a" es presionada, pinta el pixel blanco
+    D;JEQ
+    @3
+    D=D-A
+    @Black  // si "d" es presionada, pinta el pixel negro
+    D;JEQ
+    @28
+    D=D-A
+    @New    // si enter es presionado, vuelve al primer pixel
     D;JEQ
     @Key
-	0;JMP
-// (draw)
+    0;JMP   // vuelve a leer el teclado
+(New)
+    @i      // contador de pixeles
+    M=0     // el contador de pixeles vuelve a empezar
+    @Key
+    0;JMP
+(White)
+    @i
+    D=M
+    @16384
+    A=A+D   // recorre la pantalla pixel por pixel
+    M=0     // pinta de blanco
+    @i
+    M=M+1   // avanza el contador de pixeles en 1
+    @Key
+    0;JMP
+(Black)
+    @i
+    D=M
+    @16384
+    A=A+D   // recorre la pantalla pixel por pixel
+    M=1     // pinta de negro
+    @i
+    M=M+1   // avanza el contador de pixeles en 1
+    @Key
+    0;JMP
+```
+
+# Actividad 3
+
+```asm
+// (Key)
+    @24576
+    D=M     // lee la tecla
+    @Erase
+    D;JEQ   // si no hay tecla presionada, borra la pantalla
+    @100
+    D=D-A   
+    @Draw
+    D;JEQ   // si la tecla es "d", comienza a dibujar
+    @Key
+	0;JMP   // vuelve a leer la tecla
+// (Erase)
+// (Draw)
 	// put bitmap location value in R12
 	// put code return address in R13
 	@SCREEN
@@ -149,3 +208,4 @@
 (end)
     @END
     0;JMP
+```

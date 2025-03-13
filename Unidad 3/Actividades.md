@@ -91,7 +91,53 @@ void ofApp::mousePressed(int x, int y, int button) {
 Es una variable que tiene la dirección de memoria de otra variable, se usa como un acceso indirecto a la variable de referencia.
 
 #### ¿Dónde está el puntero?
-ubicado en ofApp.h , el objeto declarado "Sphere* selectedSphere"
+ubicado en ofApp.h, dentro de la clase ofAPP, se declara un puntero de tipo `Sphere` como `Sphere*`.
 
 #### ¿Cómo se inicializa el puntero?
-en el metodo "ofApp:setup" 
+en el metodo `ofApp:setup` cuando la aplicación inicia, el comando `selectedSphere = nullptr` se encarga de limpiar el valor, indicando que no se utilizará inmediatamente
+
+#### ¿Para qué se está usando el puntero?
+Se utiliza para almacenar la esfera a la que el mouse de click, y esta esfera seguirá el mouse.
+
+#### ¿Qué es exactamente lo que está almacenado en el puntero?
+El puntero está almacenando la dirección de un objeto de tipo `Sphere`, la dirección de la esfera seleccionada es almacenada en el puntero `selectedSphere`
+
+# Actividad 6
+#### El código anterior tiene un problema. ¿Puedes identificar cuál es?
+El codigo falla en permitir soltar la esfera seleccionada y también impide seleccionar otra esfera que que sea mas pequeña que la esfera seleccionada actual.
+
+#### ¿Cómo lo solucionarías?
+
+Dentro de ofApp.cpp, en la clase mousePressed.
+```C++
+void ofApp::mousePressed(int x, int y, int button) {
+
+    if (button == OF_MOUSE_BUTTON_LEFT) {
+        for (auto sphere : spheres) {
+            float distance = ofDist(x, y, sphere->getX(), sphere->getY());
+
+            if (distance < sphere->getRadius()) {
+
+                if (sphere == selectedSphere)   //Verificamos si la esfera seleccionada ya está dentro del puntero
+                {
+                    selectedSphere = nullptr;   //limpiamos el puntero, por lo cual, soltamos la esfera
+                    break;
+                }
+                else 
+                {
+                    selectedSphere = sphere;    // si no estaba dentro del puntero, la almacenamos ahi, por ende, agarramos la esfera
+                    break;
+                }
+                
+                
+            }
+        }
+    }
+}
+```
+# Actividad 7
+#### ¿Qué sucede cuando presionas la tecla “c”?
+Un mensaje aparece diciendo "Intentando crear objeto" seguido de la posicion donde está ubicado, pero la posición dada no hacen parte de las cordenadas de un plano cartesiano.
+
+#### ¿Qué sucede cuando presionas la tecla “c” con el codigo modificado?
+Un mensaje aparece diciendo "Intentando crear objeto" seguido de la posicion donde está ubicado con coordenadas X y Y, y por ultimo tambien aparece una esfera coloreada en pantalla.

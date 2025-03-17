@@ -141,3 +141,113 @@ Un mensaje aparece diciendo "Intentando crear objeto" seguido de la posicion don
 
 #### ¿Qué sucede cuando presionas la tecla “c” con el codigo modificado?
 Un mensaje aparece diciendo "Intentando crear objeto" seguido de la posicion donde está ubicado con coordenadas X y Y, y por ultimo tambien aparece una esfera coloreada en pantalla.
+
+#### ¿Por qué ocurre esto?
+El instanciamiento en el primer codigo es almacenado como una variable creada dentro del metodo y queda dentro del stack, haciendo que sea borrada una vez se salga de ese metodo, por ende, cuando el programa intenta dibujar la esfera, sale del metodo y la esfera es borrada. mientras que el segundo codigo almacena la esfera dentro del heap utilizando `new`, y es capaz de dibujar la esfera exitosamente
+
+# Actividad 8
+#### Construye un experimento (un programa) en el que puedas crear y dibujar objetos que se almacenan:
+#### En el heap:
+`ofApp.h`
+``` C++
+#pragma once
+
+#include "ofMain.h"
+
+
+class Sphere {
+public:
+    Sphere(float x, float y, float radius);
+    void draw();
+    void update(float x, float y);
+    float getX();
+    float getY();
+    float getRadius();
+
+private:
+    float x, y;
+    float radius;
+    ofColor color;
+};
+
+class ofApp : public ofBaseApp {
+
+public:
+    void setup();
+    void update();
+    void draw();
+
+    void mouseMoved(int x, int y);
+    void mousePressed(int x, int y, int button);
+
+private:
+
+    vector<Sphere*> spheres;
+};
+```
+`ofApp.cpp` 
+``` C++
+#include "ofApp.h"
+
+Sphere::Sphere(float x, float y, float radius) : x(x), y(y), radius(radius) {
+    color = ofColor(ofRandom(255), ofRandom(255), ofRandom(255));
+}
+
+void Sphere::draw() {
+    ofSetColor(color);
+    ofDrawCircle(x, y, radius);
+}
+
+void Sphere::update(float x, float y) {
+    this->x = x;
+    this->y = y;
+}
+
+float Sphere::getRadius() {
+    return radius;
+}
+
+float Sphere::getX() {
+    return x;
+}
+
+float Sphere::getY() {
+    return y;
+}
+
+//--------------------------------------------------------------
+void ofApp::setup() {
+    ofBackground(0);
+
+}
+
+//--------------------------------------------------------------
+void ofApp::update() {
+}
+
+//--------------------------------------------------------------
+void ofApp::draw() {
+    for (auto sphere : spheres) {
+        sphere->draw();
+    }
+}
+
+
+//--------------------------------------------------------------
+void ofApp::mouseMoved(int x, int y) {
+    
+     float thisx = x;
+     float thisy = y;
+     float radius = 40;
+     spheres.push_back(new Sphere(thisx, thisy, radius));
+
+}
+
+//--------------------------------------------------------------
+void ofApp::mousePressed(int x, int y, int button) {
+
+}
+```
+
+#### En el Stack:
+

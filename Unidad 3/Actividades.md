@@ -251,3 +251,199 @@ void ofApp::mousePressed(int x, int y, int button) {
 
 #### En el Stack:
 
+`ofApp.h`
+``` C++
+#pragma once
+
+#include "ofMain.h"
+
+bool globalVar = 0;
+
+class Sphere {
+public:
+    Sphere(float x, float y, float radius);
+    void draw();
+    void update(float x, float y);
+    float getX();
+    float getY();
+    float getRadius();
+
+    float x, y;
+    float radius;
+    ofColor color;
+};
+
+class ofApp : public ofBaseApp {
+
+public:
+    void setup();
+    void update();
+    void draw();
+
+    void mouseMoved(int x, int y);
+    void mousePressed(int x, int y, int button);
+
+private:
+
+    vector<Sphere*> spheres;
+};
+```
+`ofApp.cpp`
+```C++
+#include "ofApp.h"
+
+Sphere::Sphere(float x, float y, float radius) : x(x), y(y), radius(radius) {
+    color = ofColor(ofRandom(255), ofRandom(255), ofRandom(255));
+}
+
+void Sphere::draw() {
+    ofSetColor(color);
+    ofDrawCircle(x, y, radius);
+}
+
+void Sphere::update(float x, float y) {
+    this->x = x;
+    this->y = y;
+}
+
+float Sphere::getRadius() {
+    return radius;
+}
+
+float Sphere::getX() {
+    return x;
+}
+
+float Sphere::getY() {
+    return y;
+}
+
+//--------------------------------------------------------------
+void ofApp::setup() {
+    ofBackground(0);
+
+}
+
+//--------------------------------------------------------------
+void ofApp::update() {
+}
+
+//--------------------------------------------------------------
+void ofApp::draw() {
+    float x = 500;
+    float y = 500;
+    float radius = 40;
+    Sphere esfera(x, y, radius);
+    esfera.draw();
+
+}
+
+
+//--------------------------------------------------------------
+void ofApp::mouseMoved(int x, int y) {
+
+}
+
+//--------------------------------------------------------------
+void ofApp::mousePressed(int x, int y, int button) {
+
+}
+```
+
+#### En el programa principal:
+
+`ofApp.h`
+```C++
+#pragma once
+
+#include "ofMain.h"
+
+class Sphere {
+public:
+    Sphere(float x, float y, float radius);
+    void draw();
+    void update(float x, float y);
+    float getX();
+    float getY();
+    float getRadius();
+
+    float x, y;
+    float radius;
+    ofColor color;
+};
+
+float x = 0;
+float y = 0;
+float radius = 40;
+Sphere esfera(x, y, radius);
+
+class ofApp : public ofBaseApp {
+
+public:
+    void setup();
+    void update();
+    void draw();
+
+    void mouseMoved(int x, int y);
+    void mousePressed(int x, int y, int button);
+
+};
+```
+
+`ofApp.cpp`
+```C++
+#include "ofApp.h"
+
+Sphere::Sphere(float x, float y, float radius) : x(x), y(y), radius(radius) {
+    color = ofColor(ofRandom(255), ofRandom(255), ofRandom(255));
+}
+
+void Sphere::draw() {
+    ofSetColor(color);
+    ofDrawCircle(x, y, radius);
+}
+
+void Sphere::update(float x, float y) {
+    this->x = x;
+    this->y = y;
+}
+
+float Sphere::getRadius() {
+    return radius;
+}
+
+float Sphere::getX() {
+    return x;
+}
+
+float Sphere::getY() {
+    return y;
+}
+
+//--------------------------------------------------------------
+void ofApp::setup() {
+    ofBackground(0);
+
+}
+
+//--------------------------------------------------------------
+void ofApp::update() {
+    esfera.update(ofGetMouseX(), ofGetMouseY());
+}
+
+//--------------------------------------------------------------
+void ofApp::draw() {
+    esfera.draw();
+}
+
+
+//--------------------------------------------------------------
+void ofApp::mouseMoved(int x, int y) {
+
+}
+
+//--------------------------------------------------------------
+void ofApp::mousePressed(int x, int y, int button) {
+
+}
+

@@ -446,4 +446,17 @@ void ofApp::mouseMoved(int x, int y) {
 void ofApp::mousePressed(int x, int y, int button) {
 
 }
+```
 
+# Actividad 9
+#### ¿Qué sucede cuando presionas la tecla “f”?
+Las esferas creadas con click son borradas una a una en el orden contrario al que fueron creadas
+
+#### Analiza:
+```C++
+if(!heapObjects.empty()) {
+    delete heapObjects.back();
+    heapObjects.pop_back();
+}
+```
+este codigo se encarga de revisar que la ultima posición del vector `heapObject` no esté vacia, en caso tal, `delete` borra el objeto ubicado en ese espacio, y luego, la función `pop_back` retira esa posición del vector

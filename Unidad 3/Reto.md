@@ -28,9 +28,13 @@ public:
     void setup();
     void update();
     void draw();
+    
 
     void mouseMoved(int x, int y);
     void mousePressed(int x, int y, int button);
+    void keyPressed(int key);
+
+    ofEasyCam camera;
 
 private:
 
@@ -44,8 +48,8 @@ private:
 #include "ofApp.h"
 
 Sphere::Sphere(float x, float y, float z, float radius) : x(x), y(y), z(z), radius(radius) {
-    float colorX = (x / ofGetWidth()) * 255;
-    float colorY = (y / ofGetHeight()) * 255;
+    float colorX = (x / 10) * 255;
+    float colorY = (y / 10) * 255;
     float colorZ = z;
 
     color = ofColor(colorX, colorY, colorZ);
@@ -81,27 +85,39 @@ float Sphere::getZ() {
 
 //--------------------------------------------------------------
 void ofApp::setup() {
-    ofBackground(0);
-    for (int i = 0; i > 20 ; i++) {
-        for (int j = 0 ; j > 30 ; j++) {
-            float x = j * (ofGetWidth() / 30);
-            float y = i * (ofGetHeight() / 20);
-            float z = 0;
-            spheres.push_back(new Sphere(x, y, z, 5));
+    for (int x = -ofGetWidth() / 2; x < ofGetWidth() / 2; x += 10) {
+        for (int y = -ofGetHeight() / 2; y < ofGetHeight() / 2; y += 10) {
+            spheres.push_back(new Sphere(x, y, 0, 50));
         }
     }
 }
 
 //--------------------------------------------------------------
 void ofApp::update() {
-
+    // Move the camera with arrow keys
+    if (ofGetKeyPressed(OF_KEY_LEFT)) {
+        camera.pan(-1);
+    }
+    if (ofGetKeyPressed(OF_KEY_RIGHT)) {
+        camera.pan(1);
+    }
+    if (ofGetKeyPressed(OF_KEY_UP)) {
+        camera.tilt(-1);
+    }
+    if (ofGetKeyPressed(OF_KEY_DOWN)) {
+        camera.tilt(1);
+    }
 }
 
 //--------------------------------------------------------------
 void ofApp::draw() {
+    camera.begin();
+
     for (auto sphere : spheres) {
         sphere->draw();
     }
+
+    camera.end();
 }
 
 
@@ -111,7 +127,14 @@ void ofApp::mouseMoved(int x, int y) {
 }
 
 //--------------------------------------------------------------
+
 void ofApp::mousePressed(int x, int y, int button) {
 
+}
+
+void ofApp::keyPressed(int key) {
+    if (key == 'a') { 
+
+    }
 }
 ```
